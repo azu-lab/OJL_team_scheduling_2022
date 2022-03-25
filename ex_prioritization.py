@@ -23,6 +23,9 @@ def find_critical_path() -> [int]:
 # 0番目が入口ノードであるという前提を使って構いません
 G = make_template_dag()
 
+# クリティカルパス
+critical_path = [0, 4, 6, 7]
+
 # 実行順序決定
 order = [o for o in range(8)]
 # ここで実行順序決定アルゴリズムを書く
