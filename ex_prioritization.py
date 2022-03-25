@@ -12,9 +12,6 @@ G = make_template_dag()
 
 # 実行順序決定
 priority = [p for p in range(8)]
-# コメントを外して優先を入れ替えるとエラー発生
-#priority = [0, 4, 5, 1, 2, 3, 6, 7]
-#priority.sort(key=lambda x:G.nodes[x]["exec"], reverse=True)
 
 # 優先度確認
 print("order:\t\t"+str(priority))
