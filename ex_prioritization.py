@@ -14,9 +14,9 @@ def exec_time_order() -> [int]:
 
     while(len(wait_nodes) != 0):
         max_node = wait_nodes[0]
-        for i in wait_nodes:
-            if G.nodes[i]["exec"] > G.nodes[max_node]["exec"]:
-                max_node = i
+        for node in wait_nodes:
+            if G.nodes[node]["exec"] > G.nodes[max_node]["exec"]:
+                max_node = node
 
         wait_nodes.remove(max_node)
         order.append(max_node)
@@ -28,7 +28,26 @@ def exec_time_order() -> [int]:
     return order
 
 def critical_path_order() -> [int]:
-    return []
+    order = []
+    wait_nodes = [0]
+
+    while(len(wait_nodes) != 0):
+        max_node = wait_nodes[0]
+        for node in wait_nodes:
+            if node in critical_path:
+                max_node = node
+                break
+            if G.nodes[node]["exec"] > G.nodes[max_node]["exec"]:
+                max_node = node
+
+        wait_nodes.remove(max_node)
+        order.append(max_node)
+        
+        for v in G:
+            if v not in order and v not in wait_nodes and {n for n in G.predecessors(v)} <= set(order):
+                wait_nodes.append(v)
+
+    return order
 
 def find_critical_path() -> [int]:
     return []
@@ -43,7 +62,7 @@ G = make_template_dag()
 critical_path = [0, 4, 6, 7]
 
 # 実行順序決定
-order = exec_time_order()
+order = critical_path_order()
 # ここで実行順序決定アルゴリズムを書く
 
 # 実行順序確認
