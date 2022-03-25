@@ -56,7 +56,7 @@ def find_critical_path() -> [int]:
 
 # DAG定義
 # 0番目が入口ノードであるという前提を使って構いません
-G = make_random_dag()
+G = make_random_dag(123)
 
 # クリティカルパス
 critical_path = [0, 4, 6, 7]
