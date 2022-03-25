@@ -9,7 +9,23 @@ from src.make_dag import make_random_dag
 
 ### 課題2個め以降に使っても構いません
 def exec_time_order() -> [int]:
-    return []
+    order = []
+    wait_nodes = [0]
+
+    while(len(wait_nodes) != 0):
+        max_node = wait_nodes[0]
+        for i in wait_nodes:
+            if G.nodes[i]["exec"] > G.nodes[max_node]["exec"]:
+                max_node = i
+
+        wait_nodes.remove(max_node)
+        order.append(max_node)
+        
+        for v in G:
+            if v not in order and v not in wait_nodes and {n for n in G.predecessors(v)} <= set(order):
+                wait_nodes.append(v)
+
+    return order
 
 def critical_path_order() -> [int]:
     return []
@@ -24,7 +40,7 @@ def find_critical_path() -> [int]:
 G = make_template_dag()
 
 # 実行順序決定
-order = [o for o in range(8)]
+order = exec_time_order()
 # ここで実行順序決定アルゴリズムを書く
 
 # 実行順序確認
