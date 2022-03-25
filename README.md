@@ -38,7 +38,18 @@ output/scheduling_result_MMDDYYSS.htmlには、実際にスケジューラがど
 となります。
 
 ## ディレクトリ構成
-
+.<br>
+├── README.md&emsp;#このファイルです<br>
+├── ex_prioritization.py&emsp;# 実行ファイルです<br>
+├── fig&emsp;# README内の画像が格納されています<br>
+├── output&emsp;# 結果ファイルの出力先です<br>
+├── requirements.txt<br>
+├── setup.bash&emsp;# 環境設定のbashファイルです<br>
+└── src&emsp;# ソースコードです（興味があったら読んでみてください）<br>
+&nbsp;&nbsp;&nbsp;├── lib&emsp;# sched_sim.pyの依存ファイルです<br>
+&nbsp;&nbsp;&nbsp;├── make_dag.py&emsp;# サンプルのDAGを生成するコードです<br>
+&nbsp;&nbsp;&nbsp;├── sched_sim.py&emsp;# スケジューリングの実行を行うコードです<br>
+&nbsp;&nbsp;&nbsp;└── scheduling_viewer.py&emsp;# スケジューリング結果の可視化を行うコードです<br>
 
 ## FAQ
 - raise AlgorithmErrorが出る
