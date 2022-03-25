@@ -56,13 +56,13 @@ def find_critical_path() -> [int]:
 
 # DAG定義
 # 0番目が入口ノードであるという前提を使って構いません
-G = make_random_dag(123)
+G = make_random_dag(56)
 
 # クリティカルパス
 critical_path = [0, 4, 6, 7]
 
 # 実行順序決定
-order = critical_path_order()
+order = exec_time_order() # [o for o in G.nodes]
 # ここで実行順序決定アルゴリズムを書く
 
 # 実行順序確認
