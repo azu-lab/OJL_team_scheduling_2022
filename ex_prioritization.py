@@ -26,7 +26,7 @@ for edge in G.edges:
 ### 優先度決定 ###
 priority = [p for p in range(8)]
 # コメントを外して優先を入れ替えるとエラー発生
-#priority = [1, 0, 2, 3, 4, 5, 6, 7]
+#priority = [0, 4, 5, 1, 2, 3, 6, 7]
 #priority.sort(key=lambda x:G.nodes[x]["exec"], reverse=True)
 
 # 優先度確認
@@ -40,7 +40,10 @@ print(priority)
 ### スケジューリング実行 ###
 # スケジューリング
 filename = "output/scheduling_result_"+datetime.datetime.today().strftime("%m%d%H%M")
-sched_sim(G, priority, filename)
+makespan = sched_sim(G, priority, filename)
+
+# makespan出力
+print("makespan: "+str(makespan))
 
 # HTML出力
 make_scheduling_view(filename)
