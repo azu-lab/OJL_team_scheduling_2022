@@ -9,6 +9,13 @@
 4. ランダムなDAGでも機能することの確認
 
 ## 課題プログラム実行方法
+実行準備
+```
+$ bash setup.sh
+```
+また、python環境が必須です。<br>
+<br>
+実行時
 ```
 $ python3 ex_prioritization.py
 ```
@@ -29,6 +36,9 @@ output/scheduling_result_MMDDYYSS.htmlには、実際にスケジューラがど
 実行時間が長いノードを優先にするとmakespan: 14<br>
 クリティカルパス優先を追加するとmakespan: 13<br>
 となります。
+
+## ディレクトリ構成
+
 
 ## FAQ
 - raise AlgorithmErrorが出る
