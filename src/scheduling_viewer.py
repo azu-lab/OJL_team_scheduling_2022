@@ -164,7 +164,7 @@ def make_scheduling_view(filename: str):
 	output_file = filename + ".html"
 	ex_rate = 0
 
-	print("output: "+output_file)
+	print("output:\t\t"+output_file)
 	svg_viewer = SchedulingViewer(input_file, output_file, ex_rate)
 	svg_viewer.print_svg()	
 

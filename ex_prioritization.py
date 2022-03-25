@@ -17,7 +17,7 @@ priority = [p for p in range(8)]
 #priority.sort(key=lambda x:G.nodes[x]["exec"], reverse=True)
 
 # 優先度確認
-print(priority)
+print("order:\t\t"+str(priority))
 
 
 
@@ -27,7 +27,7 @@ filename = "output/scheduling_result_"+datetime.datetime.today().strftime("%m%d%
 makespan = sched_sim(G, priority, filename)
 
 # makespan出力
-print("makespan: "+str(makespan))
+print("makespan:\t"+str(makespan))
 
 # HTML出力
 make_scheduling_view(filename)
