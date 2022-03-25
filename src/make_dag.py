@@ -19,7 +19,8 @@ def make_template_dag():
     
     return G
 
-def make_random_dag():
+def make_random_dag(seed: int):
+    random.seed(seed)
     G = networkx.DiGraph()
 
     nodes = [[0]]
