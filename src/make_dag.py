@@ -40,6 +40,8 @@ def make_random_dag(seed: int):
         G.nodes[i]["exec"] = random.randrange(1, 10)
     print("random: nodes")
     print(nodes)
+    print("random: exec")
+    print([G.nodes[node]["exec"] for raw in nodes for node in raw])
     
     # エッジ定義
     for i, vs in enumerate(nodes):
