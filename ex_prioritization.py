@@ -20,8 +20,10 @@ def find_critical_path() -> [int]:
 
 
 # DAG定義
-# 0番目が入口ノードであるという前提を使って構いません
+# 0番目が入口ノード、len(G.nodes)-1番目が出繰りノードであるという前提を使って構いません
 G = make_template_dag()
+# ランダムDAG生成（引数はシード値）
+#G = make_random_dag(123)
 
 # クリティカルパス
 critical_path = [0, 4, 6, 7]
