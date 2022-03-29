@@ -3,7 +3,7 @@ import random
 
 
 
-def make_template_dag():
+def make_template_dag() -> (networkx.DiGraph(), int):
     G = networkx.DiGraph()
 
     # ノード定義
@@ -18,9 +18,9 @@ def make_template_dag():
     for edge in G.edges:
         G.edges[edge]["comm"] = 0
     
-    return G
+    return G, 14
 
-def make_template_dag2():
+def make_template_dag2() -> (networkx.DiGraph(), int):
     G = networkx.DiGraph()
 
     # ノード定義
@@ -35,9 +35,9 @@ def make_template_dag2():
     for edge in G.edges:
         G.edges[edge]["comm"] = 0
     
-    return G
+    return G, 0
 
-def make_random_dag(seed: int):
+def make_random_dag(seed: int) -> (networkx.DiGraph(), int):
     random.seed(seed)
     G = networkx.DiGraph()
 
@@ -82,4 +82,4 @@ def make_random_dag(seed: int):
     print([edge for edge in G.edges])
     print("")
 
-    return G
+    return G, 0

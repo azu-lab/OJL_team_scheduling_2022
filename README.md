@@ -34,10 +34,18 @@ output/scheduling_result_MMDDYYSS.htmlには、実際にスケジューラがど
 
 ## 課題用DAG
 <img src="fig/dag00.png" width=50%><br>
-デフォルトの状態（実行順序[0, 1, 2, 3, 4, 5, 6, 7]）で実行するとmakespan: 16<br>
-実行時間が長いノードを優先にするとmakespan: 14<br>
-クリティカルパス優先を追加するとmakespan: 13<br>
-となります。
+実行時間優先のテンプレートDAG
+- G = make_template_dag() で呼び出し
+- デフォルトの状態（実行順序[0, 1, 2, 3, 4, 5, 6, 7]）で実行するとmakespan: 16<br>
+- 実行時間が長いノードを優先にするとmakespan: 14<br>
+- クリティカルパス優先を追加するとmakespan: 14<br>
+
+<img src="fig/dag01.png" width=50%><br>
+クリティカルパス優先のテンプレートDAG
+- G = make_template_dag2() で呼び出し
+- デフォルトの状態（実行順序[0, 1, 2, 3, 4, 5, 6, 7, 8]）で実行するとmakespan: 11<br>
+- 実行時間が長いノードを優先にするとmakespan: 11<br>
+- クリティカルパス優先を追加するとmakespan: 10<br>
 
 ## ディレクトリ構成
 .<br>
