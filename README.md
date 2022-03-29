@@ -11,6 +11,8 @@
 ## 課題プログラム実行方法
 実行準備
 ```
+// git clone またはzipをダウンロード、解凍
+$ cd OJL_team_scheduling
 $ bash setup.sh
 ```
 また、python環境が必須です。<br>
