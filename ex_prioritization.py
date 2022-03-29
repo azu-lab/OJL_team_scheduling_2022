@@ -8,43 +8,23 @@ from src.make_dag import make_random_dag
 
 
 
-### 課題2個め以降に使っても構いません
-def exec_time_order() -> [int]:
-    return []
-
-def critical_path_order() -> [int]:
-    return []
-
-def find_critical_path() -> [int]:
-    return []
-
-
-
 ### DAG定義
-# 0番目が入口ノード、len(G.nodes)-1番目が出繰りノードであるという前提を使って構いません
 
-# 実行時間優先のテンプレート
-G = make_template_dag()
-# クリティカルパス優先のテンプレート
-#G = make_template_dag2()
+# 課題1のDAG
+G, target_makespan = make_template_dag()
+# 課題2のDAG
+#G, target_makespan = make_template_dag2()
 # ランダムDAG生成（引数はシード値）
-#G = make_random_dag(123)
-
-
-
-### クリティカルパス
-
-critical_path = [0, 4, 6, 7]
-# 余裕があればクリティカルパス検出アルゴリズムを作成
-#critical_path = ...
+#G, target_makespan = make_random_dag(123)
 
 
 
 ### 実行順序決定
 
 order = [o for o in range(len(G.nodes))]
-# ここで実行順序決定アルゴリズムを書く
-#order = ...
+
+# ここに実行順序を書く（課題部分）
+#order = []
 
 # 実行順序確認
 print("order:\t\t"+str(order))
@@ -58,6 +38,12 @@ makespan = sched_sim(G, order, filename)
 
 # makespan出力
 print("makespan:\t"+str(makespan))
+
+if target_makespan != 0:
+    if makespan <= target_makespan:
+        print("result:\t\t"+"\033[32m"+"Succeed!"+"\033[0m")
+    else:
+        print("result:\t\t"+"\033[31m"+"Failed..."+"\033[0m")
 
 # HTML出力
 make_scheduling_view(filename)
