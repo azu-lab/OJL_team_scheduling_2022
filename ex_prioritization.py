@@ -13,7 +13,7 @@ from src.make_dag import make_random_dag
 # 課題1のDAG
 G, target_makespan = make_template_dag()
 # 課題2のDAG
-#G, target_makespan = make_template_dag2()
+G, target_makespan = make_template_dag2()
 # ランダムDAG生成（引数はシード値）
 #G, target_makespan = make_random_dag(123)
 
