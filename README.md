@@ -20,7 +20,7 @@
 ```
 // git clone またはzipをダウンロード、解凍
 $ cd OJL_team_scheduling
-$ bash setup.sh
+$ bash setup.bash
 ```
 また、python環境が必須です。<br>
 <br>
@@ -37,19 +37,19 @@ result:         Succeed!/Failed...
 output:         output/scheduling_result_03251752.html # 実行結果の出力ファイル
 ```
 ![スケジューリング結果](fig/scheduling_result00.png)
-output/scheduling_result_MMDDYYSS.htmlには、実際にスケジューラがどのようにノードを処理したかが描画されます。<br>
+`output/scheduling_result_MMDDYYSS.html`には、実際にスケジューラがどのようにノードを処理したかが描画されます。<br>
 隙間なく埋まっているほど、短いmakespanを示します。
 
 ## 課題用DAG
 <img src="fig/dag00.png" width=50%><br>
 課題用DAG1
-- G = make_template_dag() で呼び出し
+- `G = make_template_dag()` で呼び出し
 - デフォルトの状態（実行順序[0, 1, 2, 3, 4, 5, 6, 7]）で実行するとmakespan: 16<br>
 - 目標のmakespan: 14<br>
 
 <img src="fig/dag01.png" width=50%><br>
 課題用DAG2
-- G = make_template_dag2() で呼び出し
+- `G = make_template_dag2()` で呼び出し
 - デフォルトの状態（実行順序[0, 1, 2, 3, 4, 5, 6, 7, 8]）で実行するとmakespan: 14<br>
 - 目標のmakespan: 13<br>
 
@@ -68,9 +68,14 @@ output/scheduling_result_MMDDYYSS.htmlには、実際にスケジューラがど
 &nbsp;&nbsp;&nbsp;└── scheduling_viewer.py&emsp;# スケジューリング結果の可視化を行うコードです<br>
 
 ## FAQ
-- raise AlgorithmErrorが出る
+- `raise AlgorithmError`が出る
    - 実行順序が、ノードの順序制約を守っていない可能性が高いです
 ```
 raise AlgorithmError(f'node {node_i} does not allocated.')
 src.lib.exceptions.AlgorithmError: node 0 does not allocated.
 ```
+- `bash setup.bash`が失敗する
+   - 環境依存の関係があります。代わりに以下のコマンドを実行してください
+   - `$ pip3 install networkx`
+- 出力ファイルにグラフがない
+   - スクロールバーでHTMLファイルの右側を探してみてください
