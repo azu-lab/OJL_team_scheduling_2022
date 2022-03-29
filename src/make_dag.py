@@ -35,7 +35,7 @@ def make_template_dag2() -> (networkx.DiGraph(), int):
     for edge in G.edges:
         G.edges[edge]["comm"] = 0
     
-    return G, 0
+    return G, 13
 
 def make_random_dag(seed: int) -> (networkx.DiGraph(), int):
     random.seed(seed)
