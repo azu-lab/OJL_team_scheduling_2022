@@ -24,7 +24,7 @@ def make_template_dag2() -> (networkx.DiGraph(), int):
     G = networkx.DiGraph()
 
     # ノード定義
-    nodes = [1, 3, 2, 1, 1, 4, 1, 2, 1]
+    nodes = [1, 4, 3, 1, 1, 5, 1, 3, 1]
     G.add_nodes_from(range(len(nodes)))
     # 最悪実行時間定義
     for i, exec_time in enumerate(nodes):

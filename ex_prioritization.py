@@ -28,28 +28,6 @@ def exec_time_order() -> [int]:
 
     return ext_order
 
-def critical_path_order() -> [int]:
-    cp_order = []
-    wait_nodes = [0]
-
-    while(len(wait_nodes) != 0):
-        max_node = wait_nodes[0]
-        for node in wait_nodes:
-            if node in critical_path:
-                max_node = node
-                break
-            if G.nodes[node]["exec"] > G.nodes[max_node]["exec"]:
-                max_node = node
-
-        wait_nodes.remove(max_node)
-        cp_order.append(max_node)
-        
-        for v in G:
-            if v not in cp_order and v not in wait_nodes and {n for n in G.predecessors(v)} <= set(cp_order):
-                wait_nodes.append(v)
-
-    return cp_order
-
 def find_critical_path() -> [int]:
     # 終了時間計算関数
     def culc_fn_time(idx: int, time):
@@ -76,6 +54,28 @@ def find_critical_path() -> [int]:
     cp.reverse()
     return cp
 
+def critical_path_order() -> [int]:
+    cp_order = []
+    wait_nodes = [0]
+    critical_path = find_critical_path()
+
+    while(len(wait_nodes) != 0):
+        max_node = wait_nodes[0]
+        for node in wait_nodes:
+            if node in critical_path:
+                max_node = node
+                break
+            if G.nodes[node]["exec"] > G.nodes[max_node]["exec"]:
+                max_node = node
+
+        wait_nodes.remove(max_node)
+        cp_order.append(max_node)
+        
+        for v in G:
+            if v not in cp_order and v not in wait_nodes and {n for n in G.predecessors(v)} <= set(cp_order):
+                wait_nodes.append(v)
+
+    return cp_order
 
 
 
@@ -84,7 +84,7 @@ def find_critical_path() -> [int]:
 # 課題1のDAG
 G, target_makespan = make_template_dag()
 # 課題2のDAG
-#G, target_makespan = make_template_dag2()
+G, target_makespan = make_template_dag2()
 # ランダムDAG生成（引数はシード値）
 #G, target_makespan = make_random_dag(123)
 
@@ -95,7 +95,7 @@ G, target_makespan = make_template_dag()
 order = [o for o in range(len(G.nodes))]
 
 # ここに実行順序を書く（課題部分）
-#order = []
+order = critical_path_order()
 
 # 実行順序確認
 print("order:\t\t"+str(order))
