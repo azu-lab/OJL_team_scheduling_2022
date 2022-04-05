@@ -8,26 +8,32 @@ from src.make_dag import make_random_dag
 
 
 
-### 課題2個め以降に使っても構いません
+# 実行時間が大きい順
 def exec_time_order() -> [int]:
+    # 実行順序
     ext_order = []
+    # 待機状態のノード
     wait_nodes = [0]
 
     while(len(wait_nodes) != 0):
-        max_node = wait_nodes[0]
-        for node in wait_nodes:
-            if G.nodes[node]["exec"] > G.nodes[max_node]["exec"]:
-                max_node = node
+        node = wait_nodes[0]
+        # ルールに従って次の実行順序のノードを決定（以下にコードを書く）
 
-        wait_nodes.remove(max_node)
-        ext_order.append(max_node)
+
+
+        # 決定したノードを待機状態から削除
+        wait_nodes.remove(node)
+        # 決定したノードを順序に挿入
+        ext_order.append(node)
         
+        # 決定したノードの後続ノードを待機状態に（ノード依存関係の遵守）
         for v in G:
             if v not in ext_order and v not in wait_nodes and {n for n in G.predecessors(v)} <= set(ext_order):
                 wait_nodes.append(v)
 
     return ext_order
 
+# クリティカルパス検索関数
 def find_critical_path() -> [int]:
     # 終了時間計算関数
     def culc_fn_time(idx: int, time):
@@ -41,6 +47,7 @@ def find_critical_path() -> [int]:
     fn_times = [0 for v in G.nodes]
     culc_fn_time(0, G.nodes[0]["exec"])
 
+    # 出口から入口まで、最も終了時間が大きいノードを辿る
     cp_elem = len(G.nodes) - 1
     cp.append(cp_elem)
     while(len([v for v in G.predecessors(cp_elem)]) != 0):
@@ -54,22 +61,18 @@ def find_critical_path() -> [int]:
     cp.reverse()
     return cp
 
+# クリティカルパス優先
 def critical_path_order() -> [int]:
     cp_order = []
     wait_nodes = [0]
     critical_path = find_critical_path()
 
     while(len(wait_nodes) != 0):
-        max_node = wait_nodes[0]
-        for node in wait_nodes:
-            if node in critical_path:
-                max_node = node
-                break
-            if G.nodes[node]["exec"] > G.nodes[max_node]["exec"]:
-                max_node = node
+        node = wait_nodes[0]
+        # 基本やることは実行時間が大きい順と同じ。以下の記述部だけ変える
 
-        wait_nodes.remove(max_node)
-        cp_order.append(max_node)
+        wait_nodes.remove(node)
+        cp_order.append(node)
         
         for v in G:
             if v not in cp_order and v not in wait_nodes and {n for n in G.predecessors(v)} <= set(cp_order):
