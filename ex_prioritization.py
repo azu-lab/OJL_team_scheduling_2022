@@ -71,6 +71,8 @@ def critical_path_order() -> [int]:
         node = wait_nodes[0]
         # 基本やることは実行時間が大きい順と同じ。以下の記述部だけ変える
 
+
+
         wait_nodes.remove(node)
         cp_order.append(node)
         
