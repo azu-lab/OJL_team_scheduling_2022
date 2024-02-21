@@ -37,29 +37,28 @@ def exec_time_order() -> list[int]:
 def find_critical_path() -> list[int]:
     # 終了時間計算関数
     def culc_fn_time(idx: int, time):
-        if time > fn_times[idx]:
-            fn_times[idx] = time
+        # 遅い時間が与えられたら更新し、後続を再計算
+        if time > finish_times[idx]:
+            finish_times[idx] = time
             for suc in G.successors(idx):
                 culc_fn_time(suc, time + G.nodes[suc]['exec'])
 
-    cp = []
     # 終了時間計算
-    fn_times = [0 for v in G.nodes]
+    finish_times = [0 for v in G.nodes]
     culc_fn_time(0, G.nodes[0]['exec'])
 
     # 出口から入口まで、最も終了時間が大きいノードを辿る
-    cp_elem = len(G.nodes) - 1
-    cp.append(cp_elem)
-    while(len([v for v in G.predecessors(cp_elem)]) != 0):
-        max_idx = 0
-        for p in G.predecessors(cp_elem):
-            if fn_times[p] > fn_times[max_idx]:
+    critical_path = []
+    critical_path.append(len(G.nodes) - 1) # 出口ノードを通るのは確定
+    while len(list(G.predecessors(critical_path[0]))) != 0: # 前任の数が0=入口が先頭に格納されるまで繰り返す
+        max_idx = None
+        # 前任のうち終了時刻が最も大きいノードを検出
+        for p in G.predecessors(critical_path[0]):
+            if max_idx is None or finish_times[p] > finish_times[max_idx]:
                 max_idx = p
-        cp_elem = max_idx
-        cp.append(cp_elem)
+        critical_path.insert(0, max_idx)
 
-    cp.reverse()
-    return cp
+    return critical_path
 
 # クリティカルパス優先
 def critical_path_order() -> list[int]:
