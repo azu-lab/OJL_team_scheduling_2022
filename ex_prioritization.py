@@ -27,23 +27,23 @@ order = [o for o in range(len(G.nodes))]
 #order = []
 
 # 実行順序確認
-print("order:\t\t"+str(order))
+print('order:\t\t'+str(order))
 
 
 
 ### 以下は触らない
 # スケジューリング
-filename = "output/scheduling_result_"+datetime.datetime.today().strftime("%m%d%H%M")
+filename = 'output/scheduling_result_'+datetime.datetime.today().strftime('%m%d%H%M')
 makespan = sched_sim(G, order, filename)
 
 # makespan出力
-print("makespan:\t"+str(makespan))
+print('makespan:\t'+str(makespan))
 
 if target_makespan != 0:
     if makespan <= target_makespan:
-        print("result:\t\t"+"\033[32m"+"Succeed!"+"\033[0m")
+        print('result:\t\t'+'\033[32m'+'Succeed!'+'\033[0m')
     else:
-        print("result:\t\t"+"\033[31m"+"Failed..."+"\033[0m")
+        print('result:\t\t'+'\033[31m'+'Failed...'+'\033[0m')
 
 # HTML出力
 make_scheduling_view(filename)
