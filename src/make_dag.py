@@ -41,39 +41,43 @@ def make_random_dag(seed: int) -> tuple[networkx.DiGraph, int]:
     random.seed(seed)
     G = networkx.DiGraph()
 
-    nodes = [[0]]
-    layer = random.randrange(2, 5)
-    idx = 1
+    layer = random.randrange(2, 5) # 層の数
     
-    # ノード定義
-    for l in range(layer):
-        raw = random.randrange(2, 5)
-        nodes.append([idx + i for i in range(raw)])
+    # 各層のノード定義
+    # [0], [1, 2], [3, 4], [5] のようになる
+    idx = 1
+    node_metrics = [[0]] # 入口 1ノード
+    for _ in range(layer):
+        raw = random.randrange(2, 5) # 1層のノード数
+        node_metrics.append([idx + i for i in range(raw)])
         idx += raw
-    nodes.append([idx])
+    node_metrics.append([idx]) # 出口 1ノード
 
     # ノード登録
-    G.add_nodes_from([node for raw in nodes for node in raw])
+    G.add_nodes_from(sum(node_metrics, []))
+    # 実行時間定義
     for i in G.nodes:
         G.nodes[i]['exec'] = random.randrange(1, 10)
     print('random: nodes')
-    print(nodes)
+    print(node_metrics)
     print('random: exec')
-    print([G.nodes[node]['exec'] for raw in nodes for node in raw])
+    print([G.nodes[i]['exec'] for i in G.nodes])
     
     # エッジ定義
-    for i, vs in enumerate(nodes):
-        if i == len(nodes)-1:
-            break
-        for v in vs:
-            out_dig = random.sample(nodes[i+1], min(random.randrange(1, 4), len(nodes[i+1])))
-            G.add_edges_from([(v, d) for d in out_dig])
+    for i, nodes in enumerate(node_metrics):
+        if i == len(node_metrics)-1:
+            continue
+        for node in nodes:
+            # 次のレイヤーから1~4個のノードに接続する
+            out_dig = random.sample(node_metrics[i+1], min(random.randrange(1, 4), len(node_metrics[i+1])))
+            G.add_edges_from([(node, d) for d in out_dig])
 
     # DAG条件補完
-    for i, vs in enumerate(nodes):
-        for v in vs:
-            if i !=0 and len([node for node in G.predecessors(v)]) == 0:
-                G.add_edge(random.choice(nodes[i-1]), v)
+    for i, nodes in enumerate(node_metrics):
+        for node in nodes:
+            # 前任がないノードはランダムに前の層と接続
+            if i !=0 and len(list(G.predecessors(node))) == 0:
+                G.add_edge(random.choice(node_metrics[i-1]), node)
 
     # 通信時間定義
     for edge in G.edges:
