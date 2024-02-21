@@ -108,6 +108,8 @@ G, target_makespan = make_template_dag()
 order = [o for o in range(len(G.nodes))]
 
 # ここに実行順序を書く（課題部分）
+# order = [0, 1, 4, 2, 3, 5, 6, 7] # 課題1の正答
+# order = [0, 3, 5, 1, 2, 4, 6, 7, 8] # 課題2の正答
 order = exec_time_order()
 
 # 実行順序確認
