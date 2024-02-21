@@ -9,14 +9,15 @@ from src.make_dag import make_random_dag
 
 
 # 実行時間が大きい順
-def exec_time_order() -> [int]:
+def exec_time_order() -> list[int]:
     # 実行順序
     ext_order = []
     # 待機状態のノード
     wait_nodes = [0]
 
     while(len(wait_nodes) != 0):
-        # ルールに従って次の実行順序のノードを決定（以下にコードを書く）
+        # wait_nodesの中で最も優先度が高いノードをnodeに代入（以下にコードを書く）
+        # ヒント: G.nodes[0]['exec'] でノード0の実行時間を取得
         node = max(wait_nodes, key=lambda x: G.nodes[x]['exec'])
 
 
@@ -34,40 +35,43 @@ def exec_time_order() -> [int]:
     return ext_order
 
 # クリティカルパス検索関数
-def find_critical_path() -> [int]:
+def find_critical_path() -> list[int]:
     # 終了時間計算関数
     def culc_fn_time(idx: int, time):
-        if time > fn_times[idx]:
-            fn_times[idx] = time
+        # 遅い時間が与えられたら更新し、後続を再計算
+        if time > finish_times[idx]:
+            finish_times[idx] = time
             for suc in G.successors(idx):
-                culc_fn_time(suc, time + G.nodes[suc]["exec"])
+                culc_fn_time(suc, time + G.nodes[suc]['exec'])
 
-    cp = []
     # 終了時間計算
-    fn_times = [0 for v in G.nodes]
-    culc_fn_time(0, G.nodes[0]["exec"])
+    finish_times = [0 for v in G.nodes]
+    culc_fn_time(0, G.nodes[0]['exec'])
 
     # 出口から入口まで、最も終了時間が大きいノードを辿る
-    cp_elem = len(G.nodes) - 1
-    cp.append(cp_elem)
-    while(len([v for v in G.predecessors(cp_elem)]) != 0):
-        max_idx = 0
-        for p in G.predecessors(cp_elem):
-            if fn_times[p] > fn_times[max_idx]:
+    critical_path = []
+    critical_path.append(len(G.nodes) - 1) # 出口ノードを通るのは確定
+    while len(list(G.predecessors(critical_path[0]))) != 0: # 前任の数が0=入口が先頭に格納されるまで繰り返す
+        max_idx = None
+        # 前任のうち終了時刻が最も大きいノードを検出
+        for p in G.predecessors(critical_path[0]):
+            if max_idx is None or finish_times[p] > finish_times[max_idx]:
                 max_idx = p
-        cp_elem = max_idx
-        cp.append(cp_elem)
+        critical_path.insert(0, max_idx)
 
-    cp.reverse()
-    return cp
+    return critical_path
 
 # クリティカルパス優先
-def critical_path_order() -> [int]:
+def critical_path_order() -> list[int]:
     cp_order = []
     wait_nodes = [0]
     critical_path = find_critical_path()
 
     while(len(wait_nodes) != 0):
+        # wait_nodesの中で最も優先度が高いノードをnodeに代入（以下にコードを書く）
+        # 基本やることは実行時間が大きい順と同じ。クリティカルパスの優先度を上げる
+        # ヒント: G.nodes[0]['exec'] でノード0の実行時間を取得
+        # ヒント: critical_path はクリティカルパスのノード番号配列（[0, 2, 5, 8]など）
         for w in wait_nodes:
             if w in critical_path:
                 node = w
@@ -93,7 +97,7 @@ def critical_path_order() -> [int]:
 # 課題1のDAG
 G, target_makespan = make_template_dag()
 # 課題2のDAG
-G, target_makespan = make_template_dag2()
+# G, target_makespan = make_template_dag2()
 # ランダムDAG生成（引数はシード値）
 #G, target_makespan = make_random_dag(123)
 
@@ -104,26 +108,26 @@ G, target_makespan = make_template_dag2()
 order = [o for o in range(len(G.nodes))]
 
 # ここに実行順序を書く（課題部分）
-order = critical_path_order()
+order = exec_time_order()
 
 # 実行順序確認
-print("order:\t\t"+str(order))
+print('order:\t\t'+str(order))
 
 
 
 ### 以下は触らない
 # スケジューリング
-filename = "output/scheduling_result_"+datetime.datetime.today().strftime("%m%d%H%M")
+filename = 'output/scheduling_result_'+datetime.datetime.today().strftime('%m%d%H%M')
 makespan = sched_sim(G, order, filename)
 
 # makespan出力
-print("makespan:\t"+str(makespan))
+print('makespan:\t'+str(makespan))
 
 if target_makespan != 0:
     if makespan <= target_makespan:
-        print("result:\t\t"+"\033[32m"+"Succeed!"+"\033[0m")
+        print('result:\t\t'+'\033[32m'+'Succeed!'+'\033[0m')
     else:
-        print("result:\t\t"+"\033[31m"+"Failed..."+"\033[0m")
+        print('result:\t\t'+'\033[31m'+'Failed...'+'\033[0m')
 
 # HTML出力
 make_scheduling_view(filename)
