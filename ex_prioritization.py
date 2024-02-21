@@ -16,8 +16,8 @@ def exec_time_order() -> [int]:
     wait_nodes = [0]
 
     while(len(wait_nodes) != 0):
-        node = wait_nodes[0]
         # ルールに従って次の実行順序のノードを決定（以下にコードを書く）
+        node = max(wait_nodes, key=lambda x: G.nodes[x]['exec'])
 
 
 
@@ -68,8 +68,12 @@ def critical_path_order() -> [int]:
     critical_path = find_critical_path()
 
     while(len(wait_nodes) != 0):
-        node = wait_nodes[0]
-        # 基本やることは実行時間が大きい順と同じ。以下の記述部だけ変える
+        for w in wait_nodes:
+            if w in critical_path:
+                node = w
+                break
+        else:
+            node = max(wait_nodes, key=lambda x: G.nodes[x]['exec'])
 
 
 
