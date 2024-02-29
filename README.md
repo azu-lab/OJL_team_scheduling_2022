@@ -68,6 +68,11 @@ output:         output/scheduling_result_03251752.html # 実行結果の出力�
 &nbsp;&nbsp;&nbsp;├── sched_sim.py&emsp;# スケジューリングの実行を行うコードです<br>
 &nbsp;&nbsp;&nbsp;└── scheduling_viewer.py&emsp;# スケジューリング結果の可視化を行うコードです<br>
 
+## ブランチ構成
+- main # 出題用のブランチです
+- additional # 発展課題のアルゴリズム実装のヒントが書かれています
+- answer # 課題の答えと発展課題のアルゴリズムの実装が書かれています
+
 ## FAQ
 - `raise AlgorithmError`が出る
    - 実行順序が、ノードの順序制約を守っていない可能性が高いです
